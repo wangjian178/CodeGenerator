@@ -3,6 +3,8 @@ package com.wj.model;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 /**
  * @author wj
  * @version 1.0
@@ -57,4 +59,14 @@ public class ColumnModel {
      * 是否下拉
      */
     private Boolean isSelect = false;
+
+    /**
+     * 下拉框请求地址
+     */
+    private String selectUrl;
+
+    /**
+     * 下拉框数据
+     */
+    private List<Dict> selectData;
 }

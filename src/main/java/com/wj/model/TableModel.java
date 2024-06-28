@@ -1,6 +1,6 @@
 package com.wj.model;
 
-import com.wj.FunctionEnum;
+import com.wj.enums.FunctionEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -38,6 +38,11 @@ public class TableModel {
      * 描述
      */
     private String desc;
+
+    /**
+     * 模板名称
+     */
+    private String template;
 
     /**
      * 字段

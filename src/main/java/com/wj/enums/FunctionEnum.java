@@ -1,4 +1,4 @@
-package com.wj;
+package com.wj.enums;
 
 /**
  * @author wj
@@ -23,7 +23,7 @@ public enum FunctionEnum {
 
     private String code;
 
-    private String name;
+    private String desc;
 
     public String getCode() {
         return code;
@@ -33,16 +33,16 @@ public enum FunctionEnum {
         this.code = code;
     }
 
-    public String getName() {
-        return name;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
-    FunctionEnum(String code, String name) {
+    FunctionEnum(String code, String desc) {
         this.code = code;
-        this.name = name;
+        this.desc = desc;
     }
 }
