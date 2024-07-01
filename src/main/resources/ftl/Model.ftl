@@ -35,16 +35,16 @@ public class ${className} extends BaseModel {
     <#assign firstChar = column.code[0]?upper_case>
     <#assign restOfString = column.code[1..]?default("")>
     <#-- 拼接首字母大写和剩余的字符串 -->
-    <#assign capitalizedCode = firstChar + restOfString>
+    <#assign upperColumnCode = firstChar + restOfString>
 
     <#if column.annotation??>
     ${column.annotation}
     </#if>
-    public ${column.javaType} get${capitalizedCode?cap_first}() {
+    public ${column.javaType} get${upperColumnCode?cap_first}() {
         return this.${column.code};
     }
 
-    public void set${capitalizedCode?cap_first}(${column.javaType} ${column.code}) {
+    public void set${upperColumnCode?cap_first}(${column.javaType} ${column.code}) {
         this.${column.code} = ${column.code};
     }
 </#list>

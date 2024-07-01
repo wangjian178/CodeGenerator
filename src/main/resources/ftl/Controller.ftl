@@ -92,11 +92,14 @@ public class ${className}Controller extends BaseController {
 
     <#assign import = false>
     <#assign other = false>
+    <#assign export = false>
     <#list functionList as function>
         <#if function.code == "import">
             <#assign import = true>
         <#elseif function.code == "other">
             <#assign other = true>
+        <#elseif function.code == "export">
+            <#assign export = true>
         </#if>
     </#list>
 
@@ -122,10 +125,21 @@ public class ${className}Controller extends BaseController {
         return Result.SUCCESS;
     }
     </#if>
-
+    <#if export>
+    /**
+     * 导出
+     *
+     * @param queryDto
+     * @param response
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/export", produces = "application/json;charset=UTF-8")
+    public void export(${className} queryDto, HttpServletResponse response) {
+        ${lowerClassName}Service.export(queryDto, response);
+    }
+    </#if>
     <#if other>
     /**
-     * 技术交底
+     * 其他
      */
     @GetMapping("/other")
     @ResponseBody

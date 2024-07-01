@@ -23,4 +23,5 @@ public interface ${className}Service extends BaseService<${className}> {
 
     void delete(Long id);
 
+    void export(${className} queryDto, HttpServletResponse response);
 }

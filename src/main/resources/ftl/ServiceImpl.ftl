@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
 * @author wj
@@ -134,4 +135,52 @@ public class ${className}ServiceImpl extends BaseServiceImpl<${className}> imple
         del(id);
     }
 
+    @Override
+    public void export(${className} queryDto, HttpServletResponse response) {
+        SysUser sysUser = sysUserService.findById(SystemContext.currentBossUser().getId());
+        String titles[] = new String[] {
+<#assign index = 0>
+<#list columnList as column>
+    <#if column.isExport>
+            "${column.desc}"<#if index < columnList?size - 1>,</#if>
+    </#if>
+    <#assign index = index+1>
+</#list>
+        };
+
+        // 查询数据
+        List<${className}> list = list(queryDto);
+
+        List<String[]> values = list.stream().map(x->{
+            return new String[]{
+<#assign index = 0>
+<#list columnList as column>
+<#-- 假设 column.code 总是以小写字母开头 -->
+<#-- 获取首字母大写 -->
+    <#assign firstChar = column.code[0]?upper_case>
+    <#assign restOfString = column.code[1..]?default("")>
+<#-- 拼接首字母大写和剩余的字符串 -->
+    <#assign upperColumnCode = firstChar + restOfString>
+    <#if column.isExport>
+        <#if column.javaType == "Date">
+                DateTimeUtils.SimpleDate2String(t.get${upperColumnCode}())<#if index < columnList?size - 1>,</#if>
+        <#else>
+                t.get${upperColumnCode}()<#if index < columnList?size - 1>,</#if>
+        </#if>
+    </#if>
+    <#assign index = index+1>
+</#list>
+            };
+        }).collect(Collectors.toList());
+
+        // 设置编码
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("Application/application/vnd.ms-excel");
+        try {
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("${desc}.xls", "UTF-8"));
+            ExcelUtils.createExcel(response.getOutputStream(), "${desc}", titles, values);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

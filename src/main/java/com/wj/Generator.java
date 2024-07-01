@@ -6,6 +6,7 @@ import com.wj.model.TableModel;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import freemarker.template.Version;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -91,6 +92,11 @@ public class Generator {
     private final static String DEFAULT_IMPORT_NAME = "import";
 
     /**
+     * 默认freemarker版本
+     */
+    private final static Version DEFAULT_VERSION = Configuration.VERSION_2_3_30;
+
+    /**
      * 解析数据
      *
      * @param tableModel
@@ -121,7 +127,7 @@ public class Generator {
      * @param ftlName  模板名
      */
     public static void writeFile(Map<String, Object> dataMap, String dirPath, String fileName, String ftlName) {
-        Configuration configuration = new Configuration(Configuration.VERSION_2_3_23);
+        Configuration configuration = new Configuration(DEFAULT_VERSION);
         try {
             //类名作为文件夹
             String className = dataMap.getOrDefault("className", DEFAULT_CLASS_NAME).toString();
@@ -205,9 +211,9 @@ public class Generator {
         TableModel tableModel = new TableModel().setClassName("User").setDesc("用户").setColumnList(
                         Stream.of(
                                 new ColumnModel().setCode("company").setDesc("公司").setJavaType("Company").setAnnotation("@ManyToOne"),
-                                new ColumnModel().setCode("name").setDesc("姓名").setJavaType("String").setIsSearch(true).setIsUpdate(true),
+                                new ColumnModel().setCode("name").setDesc("姓名").setJavaType("String").setIsSearch(true).setIsUpdate(true).setIsExport(true),
                                 new ColumnModel().setCode("attachment").setDesc("附件").setJavaType("String").setIsUpload(true).setIsUpdate(true),
-                                new ColumnModel().setCode("createDate").setDesc("创建时间").setJavaType("Date").setIsSearch(false).setIsUpdate(true)
+                                new ColumnModel().setCode("createDate").setDesc("创建时间").setJavaType("Date").setIsSearch(false).setIsUpdate(true).setIsExport(true)
                         ).collect(Collectors.toList())
                 )
                 .setDefaultFunction()

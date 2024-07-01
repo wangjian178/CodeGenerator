@@ -46,6 +46,11 @@ public class ColumnModel {
     private Boolean isUpdate = false;
 
     /**
+     * 是否导出
+     */
+    private Boolean isExport = false;
+
+    /**
      * 是否搜索条件
      */
     private Boolean isSearch = false;
