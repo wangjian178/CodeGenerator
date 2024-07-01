@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 /**
  * @author wj
  * @version 1.0
- * @Desc
+ * @Desc 代码生成器
  * @date 2024/6/26 10:24
  */
 public class Generator {
@@ -34,9 +34,9 @@ public class Generator {
     private final static String DEFAULT_CLASS_NAME = "default";
 
     /**
-     * xx要替换掉
+     * %s要替换掉 String.format()
      */
-    private final static String BASE_PACKAGE = "com.sft360.ssc.lcxxh.biz.xx.model";
+    private final static String BASE_PACKAGE = "com.sft360.ssc.lcxxh.biz.%s.model";
 
     /**
      * 文件类型
@@ -194,6 +194,7 @@ public class Generator {
             writeFile(dataMap, DICTIONARY_HTML, DEFAULT_IMPORT_NAME + PATTERN_HTML, FTL_HTML_IMPORT);
         }
 
+        System.out.println("Code has been generated !");
     }
 
 
@@ -202,13 +203,13 @@ public class Generator {
 
         //定义表明
         TableModel tableModel = new TableModel().setClassName("User").setDesc("用户").setColumnList(
-                Stream.of(
-                        new ColumnModel().setCode("company").setDesc("公司").setJavaType("Company").setAnnotation("@ManyToOne"),
-                        new ColumnModel().setCode("name").setDesc("姓名").setJavaType("String").setIsSearch(true).setIsUpdate(true),
-                        new ColumnModel().setCode("attachment").setDesc("附件").setJavaType("String").setIsUpload(true).setIsUpdate(true),
-                        new ColumnModel().setCode("createDate").setDesc("创建时间").setJavaType("Date").setIsSearch(false).setIsUpdate(true)
-                ).collect(Collectors.toList())
-        )
+                        Stream.of(
+                                new ColumnModel().setCode("company").setDesc("公司").setJavaType("Company").setAnnotation("@ManyToOne"),
+                                new ColumnModel().setCode("name").setDesc("姓名").setJavaType("String").setIsSearch(true).setIsUpdate(true),
+                                new ColumnModel().setCode("attachment").setDesc("附件").setJavaType("String").setIsUpload(true).setIsUpdate(true),
+                                new ColumnModel().setCode("createDate").setDesc("创建时间").setJavaType("Date").setIsSearch(false).setIsUpdate(true)
+                        ).collect(Collectors.toList())
+                )
                 .setDefaultFunction()
                 .setTableName()
                 .updateClassName()
@@ -216,5 +217,7 @@ public class Generator {
 
         //生成代码
         generate(tableModel);
+
+
     }
 }
