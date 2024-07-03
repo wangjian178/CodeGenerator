@@ -113,8 +113,14 @@
             done: function (res) {
                 //上传完毕回调
                 if (res.success) {
-                    $("#${column.code}").val(res.message);
-                    showImg(res.message, "${column.code}Show", "${column.code}");
+                    let fileNames = $("#${column.code}").val();
+                    if (fileNames == null || fileNames.length == 0) {
+                        fileNames = res.message;
+                    } else {
+                        fileNames = fileNames + ',' + res.message;
+                    }
+                    $("#${column.code}").val(fileNames);
+                    showImg(fileNames, "${column.code}Show", "${column.code}");
                 }
             },
             error: function () {
