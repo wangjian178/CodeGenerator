@@ -120,7 +120,7 @@
                         fileNames = fileNames + ',' + res.message;
                     }
                     $("#${column.code}").val(fileNames);
-                    showImg(fileNames, "${column.code}Show", "${column.code}");
+                    showFiles(fileNames, "${column.code}Show", "${column.code}");
                 }
             },
             error: function () {
@@ -128,7 +128,7 @@
             }
         });
         if(entry && entry.${column.code}){
-            showImg(entry.${column.code},"${column.code}Show","${column.code}");
+            showFiles(entry.${column.code},"${column.code}Show","${column.code}");
         }
     </#if>
 </#list>
@@ -229,28 +229,31 @@
         form.val("myform", entry);
     })
 
-    function showImg(path, showEle, valueEle) {
+    function showFiles(paths, showEle, valueEle) {
         var html = [];
-        if (path != null && path != '') {
-            //获取最后一个.的位置
-            var index = path.lastIndexOf(".");
-            //获取后缀
-            var str = path.substr(index + 1);
-            if (str == 'pdf') {
-                html.push('<img src="/sftadmin/img2/PDF.png" width="200px" height="200px" alt="' + path + '" ondblclick="del(this,\'' + showEle + '\',\'' + valueEle + '\')"/>');
-            } else if (str == 'doc' || str == 'docx') {
-                html.push('<img src="/sftadmin/img2/word.png" width="200px" height="200px" alt="' + path + '" ondblclick="del(this,\'' + showEle + '\',\'' + valueEle + '\')"/>');
-            } else if (str == 'mp4') {
-                html.push('<img src="/sftadmin/img2/mp4.png" width="200px" height="200px" alt="' + path + '" ondblclick="del(this,\'' + showEle + '\',\'' + valueEle + '\')"/>');
-            } else if (str == 'ppt') {
-                html.push('<img src="/sftadmin/img2/ppt.png" width="200px" height="200px" alt="' + path + '" ondblclick="del(this,\'' + showEle + '\',\'' + valueEle + '\')"/>');
-            } else if (str == 'xls') {
-                html.push('<img src="/sftadmin/img2/excel.png" width="200px" height="200px" alt="' + path + '" ondblclick="del(this,\'' + showEle + ',' + valueEle + '\')"/>');
-            } else if (str == 'jpg' || str == 'jpeg' || str == 'png') {
-                html.push('<img src="' + getImg(path) + '" width="200px" height="200px" alt="' + path + '" ondblclick="del(this,\'' + showEle + '\',\'' + valueEle + '\')"/>');
-            } else {
-                html.push('<img src="/sftadmin/img2/file.png" width="200px" height="200px" alt="' + path + '" ondblclick="del(this,\'' + showEle + '\',\'' + valueEle + '\')"/>');
-            }
+        if (paths != null && paths != '') {
+            let imgs = paths.split(',');
+            $.each(imgs, function (index, path) {
+                //获取最后一个.的位置
+                var index = path.lastIndexOf(".");
+                //获取后缀
+                var str = path.substr(index + 1);
+                if (str == 'pdf') {
+                    html.push('<img src="/sftadmin/img2/PDF.png" width="200px" height="200px" alt="' + path + '" ondblclick="del(this,\'' + showEle + '\',\'' + valueEle + '\')"/>');
+                } else if (str == 'doc' || str == 'docx') {
+                    html.push('<img src="/sftadmin/img2/word.png" width="200px" height="200px" alt="' + path + '" ondblclick="del(this,\'' + showEle + '\',\'' + valueEle + '\')"/>');
+                } else if (str == 'mp4') {
+                    html.push('<img src="/sftadmin/img2/mp4.png" width="200px" height="200px" alt="' + path + '" ondblclick="del(this,\'' + showEle + '\',\'' + valueEle + '\')"/>');
+                } else if (str == 'ppt') {
+                    html.push('<img src="/sftadmin/img2/ppt.png" width="200px" height="200px" alt="' + path + '" ondblclick="del(this,\'' + showEle + '\',\'' + valueEle + '\')"/>');
+                } else if (str == 'xls') {
+                    html.push('<img src="/sftadmin/img2/excel.png" width="200px" height="200px" alt="' + path + '" ondblclick="del(this,\'' + showEle + ',' + valueEle + '\')"/>');
+                } else if (str == 'jpg' || str == 'jpeg' || str == 'png') {
+                    html.push('<img src="' + getImg(path) + '" width="200px" height="200px" alt="' + path + '" ondblclick="del(this,\'' + showEle + '\',\'' + valueEle + '\')"/>');
+                } else {
+                    html.push('<img src="/sftadmin/img2/file.png" width="200px" height="200px" alt="' + path + '" ondblclick="del(this,\'' + showEle + '\',\'' + valueEle + '\')"/>');
+                }
+            })
             form.render();
         } else {
             html.push('');
@@ -269,7 +272,7 @@
             arrays.remove(imgPath);
             var newImgs = arrays.join(',');
             $("#" + valueEle).val(newImgs);
-            showImg(newImgs, showEle, valueEle);
+            showFiles(newImgs, showEle, valueEle);
             layer.close(layer.index);
         });
     };
